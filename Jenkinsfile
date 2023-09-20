@@ -4,14 +4,18 @@ pipeline {
         skipStagesAfterUnstable()
     }
     stages {
-        stage('Build') { 
+        stage('Hello') { 
             steps { 
-                sh './mvnw package' 
+                sh 'java -version' 
             }
         }
-        stage('Deploy') { 
+        stage('Branch') { 
+            when {
+                branch "develop"
+            }
+
             steps { 
-                sh 'java -jar target/*.jar' 
+                echo 'Hello from develop branch'
             }
         }
     }
