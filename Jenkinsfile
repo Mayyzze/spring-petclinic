@@ -15,7 +15,8 @@ pipeline {
             }
 
             steps { 
-                echo 'Hello from develop branch'
+                sh './mvnw clean package'
+                sh 'mvn verify'
             }
         }
         stage('Branch Feature') { 
