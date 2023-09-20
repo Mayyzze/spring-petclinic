@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Branch Feature') { 
             when {
-                branch "feature"
+                branch "feature*"
             }
 
             steps {
