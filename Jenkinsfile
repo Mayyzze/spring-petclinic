@@ -9,14 +9,18 @@ pipeline {
                 sh 'java -version' 
             }
         }
-        stage('Branch Develop') { 
+        stage('OWASP Dependency-Check Vulnerabilities') { 
             when {
                 branch "develop"
             }
-
-            steps { 
-                sh './mvnw clean package'
-                sh 'mvn verify'
+            steps {
+                dependencyCheck additionalArguments: ''' 
+                    -o './'
+                    -s './'
+                    -f 'ALL' 
+                    --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+        
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }
         stage('Branch Feature') { 
