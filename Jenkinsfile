@@ -17,6 +17,14 @@ pipeline {
             steps { 
                 echo 'Hello from develop branch'
             }
+
+            when {
+                branch "feature"
+            }
+
+            steps {
+                echo 'Hello from feature branch'
+            }
         }
     }
 }
