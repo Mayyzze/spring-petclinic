@@ -9,7 +9,7 @@ pipeline {
                 sh 'java -version' 
             }
         }
-        stage('Branch') { 
+        stage('Branch Develop') { 
             when {
                 branch "develop"
             }
@@ -17,7 +17,8 @@ pipeline {
             steps { 
                 echo 'Hello from develop branch'
             }
-
+        }
+        stage('Branch Feature') { 
             when {
                 branch "feature"
             }
