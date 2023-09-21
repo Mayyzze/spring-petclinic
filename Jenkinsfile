@@ -9,6 +9,14 @@ pipeline {
                 sh 'java -version' 
             }
         }
+        stage('Build') {
+            when {
+                branch "develop"
+            } 
+            steps { 
+                sh './mvnw clean install' 
+            }
+        }
         stage('OWASP Dependency-Check Vulnerabilities') { 
             when {
                 branch "develop"
