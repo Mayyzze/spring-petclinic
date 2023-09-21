@@ -38,6 +38,12 @@
   <dependencies>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <scope>compile</scope>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
@@ -443,5 +449,4 @@
       </build>
     </profile>
   </profiles>
-
 </project>
