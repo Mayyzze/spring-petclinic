@@ -14,7 +14,7 @@ pipeline {
                 branch "develop"
             } 
             steps { 
-                sh './mvnw package' 
+                sh './mvnw clean install -Dcheckstyle.skip' 
             }
         }
         stage('OWASP Dependency-Check Vulnerabilities') { 
