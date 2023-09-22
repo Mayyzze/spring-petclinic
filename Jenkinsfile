@@ -40,5 +40,15 @@ pipeline {
                 echo 'Hello from feature branch'
             }
         }
+        stage ('Tag detection')
+            when {
+                allOf {
+                    branch "feature*"
+                    tag "*"
+                }
+            }
+            steps {
+                echo "I have detected the tag"
+            }
     }
 }
