@@ -44,11 +44,11 @@ pipeline {
             when {
                 allOf {
                     branch "feature*"
-                    tag "*"
+                    tag "test*"
                 }
             }
             steps {
-                echo "I have detected the tag 3"
+                echo "I have detected the tag 4"
             }
         }
     }
