@@ -48,7 +48,7 @@ pipeline {
                 }
             }
             steps {
-                echo "I have detected the tag 2"
+                echo "I have detected the tag 3"
             }
         }
     }
