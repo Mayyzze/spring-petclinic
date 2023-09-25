@@ -31,6 +31,13 @@ pipeline {
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }
+
+        stage('SonarQube Analysis') {
+            withSonarQubeEnv() {
+                sh "mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
+            }
+        }
+        
         stage('Branch Feature') { 
             when {
                 branch "feature*"
