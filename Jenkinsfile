@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             when {
-                branch "d"
+                branch "develop"
             } 
             steps { 
                 sh './mvnw clean install -Dcheckstyle.skip' 
