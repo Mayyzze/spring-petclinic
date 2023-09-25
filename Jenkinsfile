@@ -52,7 +52,7 @@ pipeline {
                 echo "I have detected the tag 5"
             }
         }
-        stage ('sastScaScan Library') {
+        stage ('Test Library') {
             steps {
                 sastScaScan.helloWorld()
             }
