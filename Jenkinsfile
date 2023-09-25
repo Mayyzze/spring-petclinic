@@ -55,7 +55,7 @@ pipeline {
         stage ('Test Library') {
             steps {
                 script{
-                    sastScaScan.scanFromBuildToStageRelease("AppName")
+                    sastScaScan.scanFromBuildToStageRelease("scanTest")
                 }
             }
         }
