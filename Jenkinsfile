@@ -37,8 +37,10 @@ pipeline {
             when {
                 branch "develop"
             }
-            withSonarQubeEnv() {
-                sh "mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
+            steps {
+                withSonarQubeEnv() {
+                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
+                }
             }
         }
         
