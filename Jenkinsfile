@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             when {
-                branch "develop"
+                branch "d"
             } 
             steps { 
                 sh './mvnw clean install -Dcheckstyle.skip' 
@@ -33,9 +33,9 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-            def scannerHome = tool 'MySonarQubeScanner';
-            withSonarQubeEnv('my_sonarqube') { 
-                sh "${scannerHome}/bin/sonar-scanner"
+            def mvn = tool 'MyMaven';
+            withSonarQubeEnv() {
+            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
             }
         }
         
