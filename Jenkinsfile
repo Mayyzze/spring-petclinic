@@ -4,8 +4,7 @@ lib = library(
     retriever: modernSCM(
         [$class: 'GitSCMSource',
         remote: 'git@github.com:Mayyzze/test-library.git',
-        credentialsId: 'mayyzze',
-        traits: gitBranchDiscovery()]
+        credentialsId: 'mayyzze']
     )
 )
 pipeline { 
