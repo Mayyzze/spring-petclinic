@@ -33,9 +33,6 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-            when {
-                branch "develop"
-            }
             def scannerHome = tool 'MySonarQubeScanner';
             steps {
                 withSonarQubeEnv('my_sonarqube') { 
