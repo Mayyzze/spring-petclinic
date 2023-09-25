@@ -37,7 +37,7 @@ pipeline {
                 branch "develop"
             }
             steps {
-                withSonarQubeEnv(credentialsId: '2701857f-a36c-4d79-ac19-0972af13cddb', installationName: 'Sonar') { 
+                withSonarQubeEnv(credentialsId: '2701857f-a36c-4d79-ac19-0972af13cddb', installationName: 'my_sonarqube') { 
                     sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                 }
             } 
