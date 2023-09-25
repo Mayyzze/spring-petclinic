@@ -1,4 +1,7 @@
 @Library('test-library') _
+library identifier: 'test-library@main', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/Mayyzze/test-library.git'])
 pipeline { 
     agent any 
     options {
