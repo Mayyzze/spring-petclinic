@@ -1,3 +1,4 @@
+@Library('test-library') _
 pipeline { 
     agent any 
     options {
@@ -49,6 +50,11 @@ pipeline {
             }
             steps {
                 echo "I have detected the tag 5"
+            }
+        }
+        stage ('Test Library') {
+            steps {
+                sastScaScan.helloWorld()
             }
         }
     }
