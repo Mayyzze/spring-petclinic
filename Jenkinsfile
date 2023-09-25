@@ -63,7 +63,10 @@ pipeline {
         }
         stage ('Test Library') {
             steps {
-                sastScaScan.helloWorld()
+                script {
+                    sastScaScan.helloWorld()
+                }
+                
             }
         }
     }
