@@ -36,10 +36,10 @@ pipeline {
             when {
                 branch "develop"
             }
-            def mvn = tool 'Default Maven';
+            def scannerHome = tool 'MySonarQubeScanner';
             steps {
-                withSonarQubeEnv(credentialsId: '2701857f-a36c-4d79-ac19-0972af13cddb', installationName: 'my_sonarqube') { 
-                    sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
+                withSonarQubeEnv('my_sonarqube') { 
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
             } 
         }
