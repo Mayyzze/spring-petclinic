@@ -3,8 +3,8 @@ lib = library(
     identifier: 'test-library@main',
     retriever: modernSCM(
         [$class: 'GitSCMSource',
-        remote: 'git@github.com:Mayyzze/test-library.git',
-        credentialsId: 'mayyzze']
+        remote: 'https://github.com/Mayyzze/test-library.git'
+        ]
     )
 )
 pipeline { 
