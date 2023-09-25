@@ -32,16 +32,12 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            when {
-                branch "develop"
-            }
-            steps {
-                withSonarQubeEnv() {
-                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
-                }
+        stage('SonarQube analysis') {
+            withSonarQubeEnv(credentialsId: '2701857f-a36c-4d79-ac19-0972af13cddb', installationName: 'Sonar') { 
+                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
             }
         }
+        
         
         stage('Branch Feature') { 
             when {
