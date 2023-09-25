@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build') {
             when {
-                branch "develop"
+                branch "d"
             } 
             steps { 
                 sh './mvnw clean install -Dcheckstyle.skip' 
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('OWASP Dependency-Check Vulnerabilities') { 
             when {
-                branch "develop"
+                branch "d"
             }
             steps {
                 dependencyCheck additionalArguments: ''' 
@@ -33,12 +33,13 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-                        when {
+            when {
                 branch "develop"
             }
             steps {
+                def mvn = tool 'Default Maven';
                 withSonarQubeEnv(credentialsId: '2701857f-a36c-4d79-ac19-0972af13cddb', installationName: 'my_sonarqube') { 
-                    sh "mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
+                    sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.projectName='petclinic'"
                 }
             } 
         }
