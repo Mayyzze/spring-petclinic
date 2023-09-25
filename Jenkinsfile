@@ -3,7 +3,7 @@ lib = library(
     identifier: 'test-library@main',
     retriever: modernSCM(
         [$class: 'GitSCMSource',
-        remote: 'ssh://git@github.com:Mayyzze/test-library.git',
+        remote: 'git@github.com:Mayyzze/test-library.git',
         credentialsId: 'mayyzze']
     )
 )
