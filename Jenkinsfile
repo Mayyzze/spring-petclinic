@@ -1,12 +1,4 @@
-// Dynamically loads library - cannot use import to reference classes
-lib = library(
-    identifier: 'test-library@main',
-    retriever: modernSCM(
-        [$class: 'GitSCMSource',
-        remote: 'git@github.com:Mayyzze/test-library.git',
-        credentialsId: 'mayyzze']
-    )
-)
+@Library('test-library') _
 pipeline { 
     agent any 
     options {
@@ -62,10 +54,7 @@ pipeline {
         }
         stage ('Test Library') {
             steps {
-                script {
-                    sastScaScan.helloWorld()
-                }
-                
+                sastScaScan.helloWorld()
             }
         }
     }
