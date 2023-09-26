@@ -38,11 +38,9 @@ pipeline {
         stage('SonarQube analysis') {
             steps {
                 echo "SONAR SECRET IS ${sonarToken}"
-              }
             }
         }
-        
-        
+    
         stage('Branch Feature') { 
             when {
                 branch "feature*"
