@@ -19,7 +19,7 @@ pipeline {
             }
             steps {
                 withCredentials([string(credentialsId: 'sonarToken', variable: 'token')]) {
-                    sh "mvn clean install sonar:sonar -Dcheckstyle.skip -Dsonar.token=${token} -Dsonar.host.url=http://localhost:9000"
+                    sh "mvn clean install sonar:sonar -Dcheckstyle.skip -Dsonar.token=${token} -Dsonar.host.url=http://172.17.0.1:9000"
                 }
             }
         }
