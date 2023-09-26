@@ -37,7 +37,10 @@ pipeline {
 
         stage('SonarQube analysis') {
             steps {
-                echo "SONAR SECRET IS ${sonarToken}"
+                withCredentials([secretText(credentialsId: 'sonarToken', secretVariable: 'token')]) {
+                // the code here can access $pass and $user
+                    echo "SONAR SECRET IS $token"
+                }
             }
         }
     
