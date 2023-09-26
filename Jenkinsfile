@@ -37,7 +37,7 @@ pipeline {
 
         stage('SonarQube analysis') {
             steps {
-                echo "SONAR SECRET IS ${2701857f-a36c-4d79-ac19-0972af13cddb}"
+                echo "SONAR SECRET IS ${sonarToken}"
               }
             }
         }
