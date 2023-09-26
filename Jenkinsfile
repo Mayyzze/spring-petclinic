@@ -12,17 +12,21 @@ pipeline {
                 sh 'java -version' 
             }
         }
-        stage('Build') {
+
+        stage('SAST : Maven Build and SonarQube analysis') {
             when {
-                branch "d"
-            } 
-            steps { 
-                sh './mvnw clean install -Dcheckstyle.skip' 
+                branch "develop"
+            }
+            steps {
+                withCredentials([string(credentialsId: 'sonarToken', variable: 'token')]) {
+                    sh "mvn clean install sonar:sonar -Dcheckstyle.skip -Dsonar.token=${token} -Dsonar.host.url=http://localhost:9000"
+                }
             }
         }
-        stage('OWASP Dependency-Check Vulnerabilities') { 
+
+        stage('SCA : OWASP Dependency-Check Vulnerabilities') { 
             when {
-                branch "d"
+                branch "develop"
             }
             steps {
                 dependencyCheck additionalArguments: ''' 
@@ -32,15 +36,6 @@ pipeline {
                     --prettyPrint''', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
         
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-            }
-        }
-
-        stage('SonarQube analysis') {
-            steps {
-                withCredentials([string(credentialsId: 'sonarToken', variable: 'token')]) {
-                // the code here can access $pass and $user
-                    echo "SONAR SECRET IS ${token}"
-                }
             }
         }
     
