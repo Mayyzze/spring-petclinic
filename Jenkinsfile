@@ -3,58 +3,52 @@ properties([
     parameters([
         [$class: 'ChoiceParameter', 
             choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Env Name from the Dropdown List', 
+            description: 'Select the Fortify Version Method from the Dropdown List', 
             filterLength: 1, 
             filterable: false, 
-            name: 'Env', 
-            randomName: 'choice-parameter-5631314439613978', 
+            name: 'FortifyVersion', 
+            randomName: 'choice-parameter-1', 
             script: [
                 $class: 'GroovyScript', 
                 fallbackScript: [
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        'return[\'Could not get Env\']'
+                        'return[\'Could not get Fortify Version method\']'
                 ], 
                 script: [
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        'return["Dev","QA","Stage","Prod"]'
+                        'return["stage-release","build"]'
                 ]
             ]
         ], 
         [$class: 'CascadeChoiceParameter', 
             choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Server from the Dropdown List', 
+            description: 'Select the Branches from the Dropdown List', 
             filterLength: 1, 
             filterable: false, 
-            name: 'Server', 
-            randomName: 'choice-parameter-5631314456178619', 
-            referencedParameters: 'Env', 
+            name: 'Branch', 
+            randomName: 'choice-parameter-2', 
+            referencedParameters: 'FortifyVersion', 
             script: [
                 $class: 'GroovyScript', 
                 fallbackScript: [
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        'return[\'Could not get Environment from Env Param\']'
+                        'return[\'Could not get Fortify Version method from FortifyVersion Param\']'
                 ], 
                 script: [
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        ''' if (Env.equals("Dev")){
-                                return["devaaa001","devaaa002","devbbb001","devbbb002","devccc001","devccc002"]
+                        ''' if (FortifyVersion.equals("stage-release")){
+                                return["source-branch"]
                             }
-                            else if(Env.equals("QA")){
-                                return["qaaaa001","qabbb002","qaccc003"]
-                            }
-                            else if(Env.equals("Stage")){
-                                return["staaa001","stbbb002","stccc003"]
-                            }
-                            else if(Env.equals("Prod")){
-                                return["praaa001","prbbb002","prccc003"]
+                            else if(FortifyVersion.equals("build")){
+                                return["source-branch","dest-branch"]
                             }
                         '''
                 ]
@@ -65,7 +59,7 @@ properties([
 
 pipeline {
   environment {
-         vari = ""
+        vari = ""
   }
   agent any
   stages {
@@ -73,9 +67,9 @@ pipeline {
         steps {
          script{
           echo 'Hello'
-          echo "${params.Env}"
-          echo "${params.Server}"
-          if (params.Server.equals("Could not get Environment from Env Param")) {
+          echo "${params.FortifyVersion}"
+          echo "${params.Branch}"
+          if (params.Branch.equals("Could not get Environment from Env Param")) {
               echo "Must be the first build after Pipeline deployment.  Aborting the build"
               currentBuild.result = 'ABORTED'
               return
