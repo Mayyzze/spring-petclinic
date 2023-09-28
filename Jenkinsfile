@@ -1,10 +1,35 @@
 @Library('sastScaScan') _
+
+def getPromotionChoices() {
+    return ['stage-release', 'build']
+}
+
 pipeline {
     agent any
 
     parameters {
-        choice(name: 'PROMOTION_TYPE', choices: ['stage-release', 'build'], description: 'Select an option')
-
+        [$class: 'ChoiceParameter', 
+         choiceType: 'PT_SINGLE_SELECT', 
+         filterLength: 1, 
+         filterable: false, 
+         name: 'PROMOTION_TYPE', 
+         script: [
+             $class: 'GroovyScript', 
+             fallbackScript: [
+                 classpath: [], 
+                 sandbox: false, 
+                 script: 'return ["Error: Plugin not properly configured"]'
+             ], 
+             script: '''
+                 def choices = getPromotionChoices()
+                 if (choices.contains('build')) {
+                     choices.add('BUILD_SOURCE_BRANCH')
+                     choices.add('BUILD_DEST_BRANCH')
+                 }
+                 return choices
+             '''
+         ]
+        ]
     }
 
     stages {
@@ -13,11 +38,8 @@ pipeline {
                 expression { params.PROMOTION_TYPE == 'stage-release' }
             }
             steps {
-                script {
-                    // Ask for the third parameter if the choice parameter is populated
-                    input message: 'Please provide the source branch', parameters: [string(name: 'SR_SOURCE_BRANCH', description: 'Source Branch')]
-                }
-                echo "SOURCE_BRANCH is ${params.SR_SOURCE_BRANCH}"
+                echo "Performing Stage-Release"
+                // Add your stage-release steps here
             }
         }
 
@@ -26,13 +48,11 @@ pipeline {
                 expression { params.PROMOTION_TYPE == 'build' }
             }
             steps {
-                script {
-                    input message: 'Please provide the source branch of the build version creation', parameters: [string(name: 'BUILD_SOURCE_BRANCH', defaultValue: '', description: 'Source Branch')]
-                    input message: 'Please provide the destination branch of the build version creation', parameters: [string(name: 'BUILD_DEST_BRANCH', defaultValue: '', description: 'Destination Branch')]
-                }
-                echo "Building with CHOICE_PARAM: ${params.PROMOTION_TYPE}, BUILD_SOURCE_BRANCH: ${params.BUILD_SOURCE_BRANCH}, BUILD_DEST_BRANCH: ${params.BUILD_DEST_BRANCH}"
+                echo "Performing Build"
+                // Add your build steps here
             }
         }
     }
 }
+
 
