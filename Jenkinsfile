@@ -5,7 +5,7 @@ properties([
             choiceType: 'PT_SINGLE_SELECT', 
             description: 'Select the Env Name from the Dropdown List', 
             filterLength: 1, 
-            filterable: true, 
+            filterable: false, 
             name: 'Env', 
             randomName: 'choice-parameter-5631314439613978', 
             script: [
@@ -28,7 +28,7 @@ properties([
             choiceType: 'PT_SINGLE_SELECT', 
             description: 'Select the Server from the Dropdown List', 
             filterLength: 1, 
-            filterable: true, 
+            filterable: false, 
             name: 'Server', 
             randomName: 'choice-parameter-5631314456178619', 
             referencedParameters: 'Env', 
