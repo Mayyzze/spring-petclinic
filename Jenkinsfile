@@ -4,6 +4,7 @@ pipeline {
 
     parameters {
         choice(name: 'PROMOTION_TYPE', choices: ['stage-release', 'build'], description: 'Select an option')
+
     }
 
     stages {
@@ -14,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Ask for the third parameter if the choice parameter is populated
-                    input message: 'Please provide the source branch', parameters: [string(name: 'SR_SOURCE_BRANCH', defaultValue: '', description: 'Source Branch')]
+                    input message: 'Please provide the source branch', parameters: [string(name: 'SR_SOURCE_BRANCH', description: 'Source Branch')]
                 }
                 echo "SOURCE_BRANCH is ${params.SR_SOURCE_BRANCH}"
             }
