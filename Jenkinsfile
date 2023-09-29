@@ -1,87 +1,45 @@
 @Library('sastScaScan') _
+
+// Define variables
+List category_list = ["\"Select:selected\"","\"Vegetables\"","\"Fruits\""]
+List fruits_list = ["\"Select:selected\"","\"apple\"","\"banana\"","\"mango\""]
+List vegetables_list = ["\"Select:selected\"","\"potato\"","\"tomato\"","\"broccoli\""]
+List default_item = ["\"Not Applicable\""]
+String categories = buildScript(category_list)
+String vegetables = buildScript(vegetables_list)
+String fruits = buildScript(fruits_list)
+String items = populateItems(default_item,vegetables_list,fruits_list)
+// Methods to build groovy scripts to populate data
+String buildScript(List values){
+  return "return $values"
+}
+String populateItems(List default_item, List vegetablesList, List fruitsList){
+return """if(Categories.equals('Vegetables')){
+     return $vegetablesList
+     }
+     else if(Categories.equals('Fruits')){
+     return $fruitsList
+     }else{
+     return $default_item
+     }
+     """
+}
+// Properties step to set the Active choice parameters via 
+// Declarative Scripting
 properties([
     parameters([
-        [$class: 'ChoiceParameter', 
-            choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Fortify Version Method from the Dropdown List', 
-            filterLength: 1, 
-            filterable: false, 
-            name: 'FortifyVersion', 
-            script: [
-                $class: 'GroovyScript', 
-                fallbackScript: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return[\'Could not get Fortify Version method\']'
-                ], 
-                script: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return["stage-release","build"]'
-                ]
-            ]
-            defaultValue: 'stage-release'
-        ], 
-        [$class: 'CascadeChoiceParameter', 
-            choiceType: 'PT_SINGLE_SELECT', 
-            description: 'Select the Branches from the Dropdown List', 
-            filterLength: 1, 
-            filterable: false, 
-            name: 'Branch', 
-            referencedParameters: 'FortifyVersion', 
-            script: [
-                $class: 'GroovyScript', 
-                fallbackScript: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        'return[\'Could not get Fortify Version method from FortifyVersion Param\']'
-                ], 
-                script: [
-                    classpath: [], 
-                    sandbox: false, 
-                    script: 
-                        ''' if (FortifyVersion.equals("stage-release")){
-                                return["source-branch"]
-                            }
-                            else if(FortifyVersion.equals("build")){
-                                return["source-branch","dest-branch"]
-                            }
-                        '''
-                ]
-            ]
-        ]
+        [$class: 'ChoiceParameter', choiceType: 'PT_SINGLE_SELECT',   name: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["ERROR"]'], script: [classpath: [], sandbox: false,
+        script:  categories]]],
+[$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT',name: 'Items', referencedParameters: 'Categories', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: false, script: 'return ["error"]'], script: [classpath: [], sandbox: false, script: items]]]
     ])
 ])
-
 pipeline {
-    environment {
-            vari = ""
-    }
-    
     agent any
-    
-    stages {
-        stage('Stage-Release') {
-            when {
-                expression { params.FortifyVersion == 'stage-release' }
-            }
-            steps {
-                echo "Performing Stage-Release"
-                echo "Selected Branch: ${params.Branch}"
-            }
-        }
-
-        stage('Build') {
-            when {
-                expression { params.FortifyVersion == 'build' }
-            }
-            steps {
-                echo "Performing Build"
-                echo "Selected Branch: ${params.Branch}"
-            }
-        }
+stages {
+   stage('Build'){
+    steps {
+       echo 'Building..'
+      }
     }
+   }
 }
